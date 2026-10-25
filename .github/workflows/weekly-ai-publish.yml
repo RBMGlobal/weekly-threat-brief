@@ -1,0 +1,96 @@
+name: Publish reviewed weekly brief
+
+on:
+  schedule:
+    - cron: '45 14 * * 1,2'
+      timezone: Europe/London
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Validate is offline; publish consumes a reviewed public packet; redeploy preserves the accepted issue'
+        required: true
+        default: validate
+        type: choice
+        options: [validate, publish, redeploy]
+  push:
+    branches: [main]
+    paths: ['automation/**', '.github/workflows/weekly-ai-publish.yml']
+  pull_request:
+    paths: ['automation/**', '.github/workflows/weekly-ai-publish.yml']
+
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r automation/requirements.txt
+      - name: Check rendering and preservation without API calls or publication
+        env:
+          PYTHONPATH: automation/brief
+        run: python -m unittest discover -s automation/brief/tests -v
+
+  publish:
+    needs: validate
+    if: github.ref == 'refs/heads/main' && (inputs.mode == 'redeploy' || ((github.event_name == 'schedule' || inputs.mode == 'publish') && vars.AI_BRIEF_ENABLED == 'true'))
+    concurrency:
+      group: weekly-pages
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r automation/requirements.txt
+      - name: Retrieve the stable approved packet and render a complete brief
+        if: inputs.mode != 'redeploy'
+        run: python automation/publication.py consume-weekly --root . --work "$RUNNER_TEMP/weekly-package"
+      - name: Commit complete publication and immutable archives
+        if: inputs.mode != 'redeploy'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- ':(top,glob)*.html' ':(top,glob)*.pdf' ':(top,glob)*.png'
+          if [ -f brief-release.json ]; then git add -- brief-release.json; fi
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish source-checked weekly brief and archives'
+            git push origin HEAD:main
+          fi
+      - name: Prepare complete accepted publication
+        run: python automation/publication.py build-weekly --root . --work _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      - name: Verify live HTML, PDF, map and every retained archive
+        run: python automation/publication.py verify-weekly --root . --work _site
+      - name: Retain publication validation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-publication-${{ github.run_id }}
+          path: |
+            weekly-artifact-manifest.json
+            ${{ runner.temp }}/weekly-package/run-summary.json
+          retention-days: 30
+          if-no-files-found: ignore
