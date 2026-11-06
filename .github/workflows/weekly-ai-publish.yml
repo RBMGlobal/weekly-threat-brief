@@ -2,7 +2,8 @@ name: Publish reviewed weekly brief
 
 on:
   schedule:
-    - cron: '45 14 * * 1,2'
+    # Wednesday covers a reviewed packet that missed the Tuesday run. An unchanged packet still publishes nothing.
+    - cron: '45 14 * * 1,2,3'
       timezone: Europe/London
   workflow_dispatch:
     inputs:
