@@ -81,15 +81,18 @@ jobs:
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
+          name: weekly-pages-${{ github.run_attempt }}
       - uses: actions/deploy-pages@v4
         id: deployment
+        with:
+          artifact_name: weekly-pages-${{ github.run_attempt }}
       - name: Verify live HTML, PDF, map and every retained archive
         run: python automation/publication.py verify-weekly --root . --work _site
       - name: Retain publication validation
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: weekly-publication-${{ github.run_id }}
+          name: weekly-publication-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             weekly-artifact-manifest.json
             ${{ runner.temp }}/weekly-package/run-summary.json
