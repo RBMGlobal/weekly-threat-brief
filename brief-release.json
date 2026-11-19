@@ -29,38 +29,38 @@
   },
   "events_release_sha256": "d1b09f3a543079e63ee3e295a2fee2f60fbed49417cb27e7ba6b97845e0f1711",
   "files": {
-    "Nigeria_Weekly_Brief_2026-11-02.pdf": {
-      "bytes": 6289246,
-      "sha256": "f5b37402840d99b1b329813df55026e3ffb101568a74cecffce6383b05b36807"
-    },
-    "archive-2026-10-26.html": {
-      "bytes": 6276,
-      "sha256": "075bae1977c74244ca267f156022b23236301bfa891cc5bb15e9e14a75ac737d"
+    "Nigeria_Weekly_Brief_2026-11-09.pdf": {
+      "bytes": 6289308,
+      "sha256": "d85a1bfeadf236f612ecfeaea5482a5ee1f5c71e8fd1db55f619fbb539c0c6c6"
     },
     "archive-2026-11-02.html": {
       "bytes": 6289,
       "sha256": "d63d0601d93531b76e1f61f4163240e1e4c16579d47bf1a1bbec1aaaad729890"
     },
+    "archive-2026-11-09.html": {
+      "bytes": 6298,
+      "sha256": "879ee47b3186fc09b0503bb4028163ed59312f3b096f4f13ecef6629000ccc28"
+    },
     "index.html": {
-      "bytes": 6289,
-      "sha256": "d63d0601d93531b76e1f61f4163240e1e4c16579d47bf1a1bbec1aaaad729890"
+      "bytes": 6298,
+      "sha256": "879ee47b3186fc09b0503bb4028163ed59312f3b096f4f13ecef6629000ccc28"
     },
     "latest.pdf": {
-      "bytes": 6289246,
-      "sha256": "f5b37402840d99b1b329813df55026e3ffb101568a74cecffce6383b05b36807"
+      "bytes": 6289308,
+      "sha256": "d85a1bfeadf236f612ecfeaea5482a5ee1f5c71e8fd1db55f619fbb539c0c6c6"
     },
     "map-2026-11-18.png": {
       "bytes": 4061868,
       "sha256": "068393fb5ce0d610d7c220b52d1ac6dd1408c2cf4504ccd4ddeca85767027111"
     }
   },
-  "issue_date": "2026-11-02",
-  "packet_sha256": "af9475eeb2d36473f4dae390eda5cd856b37b05c78df53faef63efe1f83a015c",
+  "issue_date": "2026-11-09",
+  "packet_sha256": "a732a3f9bff90f0d14a74d13a97659bb21b194c99e3ca034b07200b6927189ba",
   "publication_date": "2026-11-19",
   "reporting_window": {
-    "from": "2026-10-26",
-    "to": "2026-11-01"
+    "from": "2026-11-02",
+    "to": "2026-11-08"
   },
-  "reviewed_at": "2026-11-19T09:47:00.768834+00:00",
+  "reviewed_at": "2026-11-19T10:07:42.639580+00:00",
   "schema_version": 1
 }
