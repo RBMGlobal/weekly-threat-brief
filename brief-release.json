@@ -1,66 +1,66 @@
 {
   "events_coverage": {
     "gdelt": {
-      "events": 1652,
-      "input_days": 33,
+      "events": 2801,
+      "input_days": 56,
       "input_from": "2026-09-23",
-      "input_through": "2026-10-25",
-      "max_event_date": "2026-10-25",
+      "input_through": "2026-11-17",
+      "max_event_date": "2026-11-17",
       "min_event_date": "2026-09-23"
     },
     "heat": {
       "from": "2026-09-23",
-      "to": "2026-10-25"
+      "to": "2026-11-17"
     },
     "reliefweb": {
-      "count": 196,
-      "fetched_at": "2026-10-26T17:29:55.059479+00:00",
-      "from": "2026-07-29",
-      "latest_publication": "2026-10-25",
+      "count": 212,
+      "fetched_at": "2026-11-18T19:27:53.935744+00:00",
+      "from": "2026-08-21",
+      "latest_publication": "2026-11-18",
       "refresh": "checked",
-      "to": "2026-10-26"
+      "to": "2026-11-18"
     },
     "ucdp": {
-      "events": 2291,
+      "events": 2239,
       "max_event_date": "2026-09-30",
-      "min_event_date": "2024-10-01",
+      "min_event_date": "2024-11-01",
       "source_versions": "annual 26.1; candidate: 26.0.1, 26.0.2, 26.0.3, 26.0.4, 26.0.5, 26.0.6, 26.0.7, 26.0.8, 26.0.9"
     }
   },
-  "events_release_sha256": "86f8b43a8bd56fe6bb6ecdd32900f393e02b7c22033502a66dd9e80b48ce17c9",
+  "events_release_sha256": "d1b09f3a543079e63ee3e295a2fee2f60fbed49417cb27e7ba6b97845e0f1711",
   "files": {
-    "Nigeria_Weekly_Brief_2026-10-26.pdf": {
-      "bytes": 6325042,
-      "sha256": "95e98798dfa497b51b0f7fd024bf7ab0d1b3759598715b23009a2b6201205eff"
-    },
-    "archive-2026-10-19.html": {
-      "bytes": 8591,
-      "sha256": "fea6346f6d50bb442e0cf66e18e52901f399d903da0560a7136741b3447ac2df"
+    "Nigeria_Weekly_Brief_2026-11-02.pdf": {
+      "bytes": 6289246,
+      "sha256": "f5b37402840d99b1b329813df55026e3ffb101568a74cecffce6383b05b36807"
     },
     "archive-2026-10-26.html": {
       "bytes": 6276,
       "sha256": "075bae1977c74244ca267f156022b23236301bfa891cc5bb15e9e14a75ac737d"
     },
+    "archive-2026-11-02.html": {
+      "bytes": 6289,
+      "sha256": "d63d0601d93531b76e1f61f4163240e1e4c16579d47bf1a1bbec1aaaad729890"
+    },
     "index.html": {
-      "bytes": 6276,
-      "sha256": "075bae1977c74244ca267f156022b23236301bfa891cc5bb15e9e14a75ac737d"
+      "bytes": 6289,
+      "sha256": "d63d0601d93531b76e1f61f4163240e1e4c16579d47bf1a1bbec1aaaad729890"
     },
     "latest.pdf": {
-      "bytes": 6325042,
-      "sha256": "95e98798dfa497b51b0f7fd024bf7ab0d1b3759598715b23009a2b6201205eff"
+      "bytes": 6289246,
+      "sha256": "f5b37402840d99b1b329813df55026e3ffb101568a74cecffce6383b05b36807"
     },
-    "map-2026-10-26.png": {
-      "bytes": 4092960,
-      "sha256": "429565fd28161f2213792d87ae7354c3a9b5868dad25b56df5ff34f1b221d82a"
+    "map-2026-11-18.png": {
+      "bytes": 4061868,
+      "sha256": "068393fb5ce0d610d7c220b52d1ac6dd1408c2cf4504ccd4ddeca85767027111"
     }
   },
-  "issue_date": "2026-10-26",
-  "packet_sha256": "0c3f7a16647c09efa63ba0574edfa99df1c3192cf321f9acdb9054c1d86cdbf6",
-  "publication_date": "2026-10-26",
+  "issue_date": "2026-11-02",
+  "packet_sha256": "af9475eeb2d36473f4dae390eda5cd856b37b05c78df53faef63efe1f83a015c",
+  "publication_date": "2026-11-19",
   "reporting_window": {
-    "from": "2026-10-19",
-    "to": "2026-10-25"
+    "from": "2026-10-26",
+    "to": "2026-11-01"
   },
-  "reviewed_at": "2026-10-26T19:58:53.069607+00:00",
+  "reviewed_at": "2026-11-19T09:47:00.768834+00:00",
   "schema_version": 1
 }
