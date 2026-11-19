@@ -5,10 +5,30 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from build_brief import InvalidBrief, build, inventory, read_json, sha, validate_packet, write_json
 from fixtures import fixture, attest
+
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+import publication
+
+
+class PublicationDecisionTests(unittest.TestCase):
+    def test_unchanged_issue_requires_all_live_assets_before_skipping(self):
+        files = {name: {'bytes': 2, 'sha256': publication.sha(b'ok')}
+                 for name in ('index.html', 'archive.pdf')}
+        for last, expected in [(b'ok', False), (b'no', True), (publication.requests.Timeout(), True)]:
+            with self.subTest(last=last), patch.object(publication, 'get', side_effect=[b'ok', last]) as fetch:
+                self.assertEqual(publication.deployment_needed({'status': 'unchanged'}, {'files': files}, 'https://example.org/'), expected)
+                self.assertEqual(fetch.call_count, 2)
+
+    def test_new_issue_deploys_without_reading_previous_live_files(self):
+        with patch.object(publication, 'get') as fetch:
+            self.assertTrue(publication.deployment_needed({'status': 'validated'}, {'files': {}}, 'https://example.org/'))
+            fetch.assert_not_called()
 
 
 class BriefTests(unittest.TestCase):

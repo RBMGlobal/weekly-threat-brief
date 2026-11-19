@@ -2,8 +2,8 @@ name: Publish reviewed weekly brief
 
 on:
   schedule:
-    # Wednesday covers a reviewed packet that missed the Tuesday run. An unchanged packet still publishes nothing.
-    - cron: '45 14 * * 1,2,3'
+    # Collect late approved packets without another paid research run.
+    - cron: '45 14 * * *'
       timezone: Europe/London
   workflow_dispatch:
     inputs:
@@ -77,16 +77,24 @@ jobs:
           fi
       - name: Prepare complete accepted publication
         run: python automation/publication.py build-weekly --root . --work _site
+      - name: Check whether the accepted issue already matches every live file
+        id: check
+        if: inputs.mode != 'redeploy'
+        run: python automation/publication.py check-weekly --root . --work "$RUNNER_TEMP/weekly-package"
       - uses: actions/configure-pages@v5
+        if: inputs.mode == 'redeploy' || steps.check.outputs.deploy == 'true'
       - uses: actions/upload-pages-artifact@v4
+        if: inputs.mode == 'redeploy' || steps.check.outputs.deploy == 'true'
         with:
           path: _site
           name: weekly-pages-${{ github.run_attempt }}
       - uses: actions/deploy-pages@v4
+        if: inputs.mode == 'redeploy' || steps.check.outputs.deploy == 'true'
         id: deployment
         with:
           artifact_name: weekly-pages-${{ github.run_attempt }}
       - name: Verify live HTML, PDF, map and every retained archive
+        if: inputs.mode == 'redeploy' || steps.check.outputs.deploy == 'true'
         run: python automation/publication.py verify-weekly --root . --work _site
       - name: Retain publication validation
         if: always()

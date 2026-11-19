@@ -3,6 +3,7 @@ import argparse
 from datetime import date
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -202,6 +203,18 @@ def consume_weekly(root, work):
     return {'status': 'validated', 'issue_date': result['issue_date'], 'validation': result['validation']}
 
 
+def deployment_needed(summary, manifest, base):
+    if summary['status'] != 'unchanged':
+        return True
+    # A previous run may have committed the issue but failed before Pages served it.
+    for name, record in manifest['files'].items():
+        try:
+            equal(get(base + name), record)
+        except (ValueError, requests.RequestException):
+            return True
+    return False
+
+
 def verify_live(manifest, base, timeout=420):
     deadline = time.monotonic() + timeout
     while True:
@@ -222,7 +235,7 @@ def verify_live(manifest, base, timeout=420):
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('mode', choices=['apply-company', 'consume-weekly', 'build-weekly', 'verify-weekly'])
+    p.add_argument('mode', choices=['apply-company', 'consume-weekly', 'build-weekly', 'check-weekly', 'verify-weekly'])
     p.add_argument('--root', type=Path, default=Path('.'))
     p.add_argument('--work', type=Path, required=True)
     a = p.parse_args()
@@ -236,5 +249,12 @@ if __name__ == '__main__':
     elif a.mode == 'build-weekly':
         manifest = public_weekly_snapshot(a.root, a.work)
         Path('weekly-artifact-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+    elif a.mode == 'check-weekly':
+        summary = json.loads((a.work / 'run-summary.json').read_text())
+        manifest = json.loads(Path('weekly-artifact-manifest.json').read_text())
+        needed = deployment_needed(summary, manifest, 'https://rbmglobal.co.uk/weekly-threat-brief/')
+        with Path(os.environ['GITHUB_OUTPUT']).open('a') as output:
+            print('deploy=' + str(needed).lower(), file=output)
+        print('Deployment required.' if needed else 'All accepted files already match the live site.')
     else:
         verify_live(json.loads(Path('weekly-artifact-manifest.json').read_text()), 'https://rbmglobal.co.uk/weekly-threat-brief/')

@@ -9,9 +9,9 @@ Installing this code or passing fixture tests does not establish successful AI r
 The company repository owns the only AI credential and budget ledger. Daily at
 07:30 Europe/London it searches approved public sources, fetches dated evidence,
 drafts a structured sentiment/source review and asks a separate AI call to check it.
-On Mondays at13:15 it researches the next missing complete Monday–Sunday reporting
+On Mondays at 13:15 it researches the next missing complete Monday–Sunday reporting
 week and validates a weekly brief. GitHub can delay starts. The weekly repository
-consumes the approved public packet at14:45 Monday/Tuesday, renders the complete
+consumes the approved public packet daily at 14:45 London time, renders the complete
 HTML/PDF/map package, preserves archives, deploys and checks every live file.
 
 The weekly repository has no AI credential and neither workflow has a cross-repository
@@ -97,3 +97,5 @@ from source backups and must be reconfigured after restoring repositories.
 Official references: [Responses web search](https://developers.openai.com/api/docs/guides/tools-web-search),
 [GitHub workload identity](https://developers.openai.com/api/docs/guides/workload-identity-federation/github-actions),
 [OpenAI spend limits](https://developers.openai.com/api/docs/guides/spend-limits).
+
+A late approved packet can publish on any day. When the issue is already accepted, the publisher compares every live file with its checksum before skipping deployment. A retry can recover a committed issue that Pages has yet to serve. Each deployment attempt has its own artifact name.
